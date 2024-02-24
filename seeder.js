@@ -2,29 +2,26 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const fs = require('fs');
-const Bootcamp = require('./Models/Bootcamp');
-const CourseSchema = require('./Models/course');
-const UserSchema = require('./Models/User');
-const ReviewSchema = require('./Models/Reviews');
+const Driver = require('./Models/Driver');
+const Point = require('./Models/Point');
 
 dotenv.config({path:'./config/config.env'});
 
 mongoose.connect(process.env.MONGODB_CONN_URI)
 
-const bootcamps = JSON.parse(fs.readFileSync(`${__dirname}/_data/bootcamps.json`));
-const courses = JSON.parse(fs.readFileSync(`${__dirname}/_data/courses.json`));
-const users = JSON.parse(fs.readFileSync(`${__dirname}/_data/users.json`));
-const reviews = JSON.parse(fs.readFileSync(`${__dirname}/_data/reviews.json`));
+const coordinates = JSON.parse(fs.readFileSync(`${__dirname}/_data/points.json`));
+const drivers = JSON.parse(fs.readFileSync(`${__dirname}/_data/drivers.json`));
+
+
 
 
 const insertData = async() => {
     
     try{
-        await CourseSchema.create(courses);
-        await Bootcamp.create(bootcamps);
-        await UserSchema.create(users);
-        await ReviewSchema.create(reviews);
-        console.log("bootcamps inserted succesfully");
+        await Point.create(coordinates);
+        await Driver.create(drivers);
+        
+        console.log("Data inserted succesfully");
         process.exit();
     }
     catch(err){
@@ -34,11 +31,9 @@ const insertData = async() => {
 
 const deleteData = async ()=>{
     try{
-        await Bootcamp.deleteMany();
-        await CourseSchema.deleteMany();
-        await UserSchema.deleteMany();
-        await ReviewSchema.deleteMany();
-        console.log("bootcamps deleted");
+        await Point.deleteMany();
+        await Driver.deleteMany();
+        console.log("Data deleted");
         process.exit();
     }
     catch(err){

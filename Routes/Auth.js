@@ -1,25 +1,19 @@
 const express = require('express');
-const {
-     registerNewUser, login, getMe, forgotPassword, resetPassword, updateUser, updatePassword, logout 
-    } = require('../controllers/Auth');
-const {protect} = require('../Middleware/auth');
-
 const router = express.Router();
+const {  studentLogin, studentLogout, driverLogin, driverLogout, getallStudents, getallDrivers } = require('../controllers/Auth');
+const{protect,authorize} = require('../Middleware/auth');
 
-router.post('/newuser',registerNewUser);
 
-router.post('/login',login);
+router.post('/studentlogin',studentLogin);
 
-router.get('/me',protect,getMe);
+router.get('/studentlogout',studentLogout);
 
-router.post('/forgotpass',forgotPassword);
+router.post('/driverlogin',driverLogin);
 
-router.put('/resetpassword/:resetToken',resetPassword);
+router.get('/driverlogout',driverLogout);
 
-router.put('/updateuser',protect,updateUser);
+router.get('/getallstudents',getallStudents);
 
-router.put('/updatePassword',protect,updatePassword);
-
-router.get('/logout',logout);
+router.get('/getalldrivers',getallDrivers);
 
 module.exports = router;
